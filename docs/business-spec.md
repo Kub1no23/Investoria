@@ -2,8 +2,8 @@
 
 
 ### Business Requirements Document  
-**Version 1.0**  
-**Date: 12/09/2025**  
+**Version 1.1**  
+**Date: 02/10/2025**  
 **Author: Zlámal Jakub**
 
 ---
@@ -22,12 +22,12 @@
 
 ## 1. Project Overview
 - **Project Name:** Investoria  
-- **Short Description:** Educational platform that helps users learn investing by practicing with real time market data as well as historical data. Users can simulate trades on past events, analyze their decisions, and improve their financial literacy. The platform also supports group features, where users can collaborate, share strategies, and learn together.  
+- **Short Description:** Educational platform that helps users learn investing by practicing with historical market data. Users can simulate trades on past events, analyze their decisions, and improve their financial literacy. The platform also supports group features, where users can collaborate, share strategies, and learn together.  
 - **Problem Statement:** Many beginners struggle to learn investing because real markets are risky, fast-moving, and require capital. Existing learning tools are either too theoretical or lack a collaborative aspect. There is a need for an accessible and safe environment where users can practice investment strategies on real data, while also benefiting from group learning and peer feedback.  
 
 ## 2. Goals & Objectives
 - Provide an interactive platform for learning investing without financial risk.
-- Enable users to simulate trades using real time market data as well as historical data.
+- Enable users to simulate trades using historical market data.
 - Support group learning where users can track progress and share strategies.
 - Improve financial literacy and decision-making skills through practice.
 
@@ -41,7 +41,7 @@
 
 ## 5. Scope
 - **In Scope:**  
-  - Real time and historical market data simulations
+  - Historical market data simulations
   - User profiles and progress tracking
   - Group creation and collaboration features
 
@@ -67,4 +67,4 @@
     
 - **Risks:**
   - Limited time/resources may restrict feature development.
-  - The application depends on external services (e.g., APIs providing market data). While it is expected to work reliably most of the time ( 99% ), outages or changes in those services could affect availability and accuracy.
+  - The application depends on external services (e.g., APIs providing market data). While it is expected to work reliably most of the time ( 99.99% ), outages or changes in those services could affect availability and accuracy.

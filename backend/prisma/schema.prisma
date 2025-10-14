@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id      Int       @id @default(autoincrement())
+  username     String    @db.VarChar(50)
+  email        String    @db.VarChar(100)
+  password_hash String   @db.VarChar(255)
+  display_name String    @db.VarChar(50)
+  created_at   DateTime  @default(now())
+
+  accounts     Account[]
+  groups       Group[]   @relation("GroupCreator")
+  groupMembers GroupMember[]
+  messages     Message[]
+}
+
+model Account {
+  account_id   Int       @id @default(autoincrement())
+  user_id      Int
+  account_name String    @db.VarChar(50)
+  account_type String    @db.VarChar(20)
+  balance      Decimal   @default(10000)
+  leverage     Decimal   @default(1)
+  created_at   DateTime  @default(now())
+
+  user         User      @relation(fields: [user_id], references: [user_id])
+  trades       Trade[]
+}
+
+model Group {
+  group_id     Int       @id @default(autoincrement())
+  name         String    @db.VarChar(50)
+  description  String?
+  creator_id   Int
+  created_at   DateTime  @default(now())
+
+  creator      User      @relation("GroupCreator", fields: [creator_id], references: [user_id])
+  members      GroupMember[]
+  messages     Message[]
+}
+
+model GroupMember {
+  group_id     Int
+  user_id      Int
+  joined_at    DateTime  @default(now())
+
+  group        Group     @relation(fields: [group_id], references: [group_id])
+  user         User      @relation(fields: [user_id], references: [user_id])
+
+  @@id([group_id, user_id])
+}
+
+model Trade {
+  trade_id     Int       @id @default(autoincrement())
+  account_id   Int
+  asset_symbol String    @db.VarChar(20)
+  trade_type   String    @db.VarChar(10)
+  quantity     Decimal
+  lot_size     Decimal
+  pip_value    Decimal
+  entry_price  Decimal
+  exit_price   Decimal
+  trade_date   DateTime
+  mode         String    @db.VarChar(20)
+  status       String    @db.VarChar(20)
+  created_at   DateTime  @default(now())
+  executed_at  DateTime?
+
+  account      Account   @relation(fields: [account_id], references: [account_id])
+}
+
+model Message {
+  message_id   Int       @id @default(autoincrement())
+  group_id     Int
+  user_id      Int
+  message_text String
+  created_at   DateTime  @default(now())
+
+  group        Group     @relation(fields: [group_id], references: [group_id])
+  user         User      @relation(fields: [user_id], references: [user_id])
+}

@@ -1,0 +1,27 @@
+{
+    "appId": "com.j-zlamal.investoria",
+    "productName": "Investoria",
+    "icon": "src/ui/assets/react.svg",
+    "files": [
+        "dist-electron/**/*",
+        "dist-react/**/*"
+    ],
+    "linux": {
+        "target": [
+            "AppImage"
+        ],
+        "category": "Finance"
+    },
+    "mac": {
+        "target": [
+            "dmg"
+        ],
+        "category": "public.app-category.finance"
+    },
+    "win": {
+        "target": [
+            "portable",
+            "msi"
+        ]
+    }
+}

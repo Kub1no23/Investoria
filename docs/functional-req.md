@@ -91,6 +91,27 @@ This approach improves performance and scalability while maintaining strong secu
 | If user selects "Remember Me," token is stored on client for future automatic login | If user selects "Remember Me," token is stored on client for future automatic login |
 
 
+### 3.2 Historical Data Backtesting
+
+Users lands on the homepage and sees a list of available stocks for backtesting. Upon selecting a stock, a candlestick chart is loaded using **TradingView Lightweight Charts**. The user is then prompted to choose a historical time period they wish to backtest. Once the desired range is confirmed, the system loads the corresponding stock data from the cache or directly from the **Polygon.io** API (if not cached).  
+
+Historical stock data is fetched, as previously mentioned, from **Polygon.io** API and cached locally. Due to free plan limitations (end-of-day data, 5 API calls per minute), data is updated in batch every few minutes after new end-of-day data becomes available. The cached JSON is stored in **PostgreSQL** using a JSONB column for fast queries and filtering by symbol and timestamp.
+
+Inside the backtesting mode, the **Execute Window** opens to place simulated trades (buy/sell stops or limits). This window allows them to set trade parameters such as entry price, quantity, stop-loss, and take-profit levels.  
+All backtesting trade execution logic runs on the **frontend**, ensuring fast feedback and responsiveness.  
+
+When a trade is closed, either manually by the user or automatically via stop-loss/take-profit logic, the result is sent via an **HTTP POST request** to the backend. The backend processes the data and writes it into the database under the user’s specific backtesting account. This way, only finalized trades are stored, minimizing unnecessary traffic and ensuring clean record-keeping.
+
+#### Backtesting Account Flow
+
+| Step | Description |
+|------|-------------|
+| 1 | User enters backtesting mode after selecting a historical date range for the specific symbol. |
+| 2 | In the execute window the user places a simulated trade (long/short). |
+| 3 | Frontend handles trade logic (execution, SL/TP checks, manual close). |
+| 4 | Once a trade is closed, the result (entry price, exit price, profit/loss) is sent via HTTP POST request to the BE. |
+| 5 | Backend validates and writes the trade record into the user’s backtesting account in the PostgreSQL database. |
+
 
 ---
 

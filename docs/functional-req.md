@@ -180,7 +180,7 @@ The workflow for updating account settings follows a clear process to ensure dat
 
 ### 4.1 Database Diagram
 
-The database schema for Investoria is visualized in [ERD Diagram](docs/assets/ERD.svg). It includes the following main tables:  
+The database schema for Investoria is visualized in [ERD Diagram](https://github.com/Kub1no23/Investoria/blob/main/docs/assets/ERD.svg). It includes the following main tables:  
 
 - **users** – stores user account information.  
 - **groups** – defines collaborative groups.  

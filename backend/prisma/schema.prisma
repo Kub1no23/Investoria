@@ -10,9 +10,9 @@ datasource db {
 model User {
   user_id      Int       @id @default(autoincrement())
   username     String    @db.VarChar(50)
-  email        String    @db.VarChar(100)
-  password_hash String   @db.VarChar(255)
-  display_name String    @db.VarChar(50)
+  email        String    @db.VarChar(100) @unique
+  password_hash String  @db.VarChar(255)
+  fullname String @db.VarChar(50)
   created_at   DateTime  @default(now())
 
   accounts     Account[]
@@ -28,11 +28,30 @@ model Account {
   account_type String    @db.VarChar(20)
   balance      Decimal   @default(10000)
   leverage     Decimal   @default(1)
+  start_date   DateTime  // kdy začíná simulace/backtest
   created_at   DateTime  @default(now())
 
   user         User      @relation(fields: [user_id], references: [user_id])
   trades       Trade[]
 }
+
+model OHLC {
+  id        Int      @id @default(autoincrement())
+  symbol    String   @db.VarChar(20)
+  timeframe String   @db.VarChar(10)
+  time      BigInt   // Unix timestamp v sekundách
+
+  open      Decimal
+  high      Decimal
+  low       Decimal
+  close     Decimal
+  volume    Decimal?
+
+  @@index([symbol, timeframe, time])
+  @@unique([symbol, timeframe, time])
+}
+
+
 
 model Group {
   group_id     Int       @id @default(autoincrement())

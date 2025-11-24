@@ -1,7 +1,7 @@
 <h1 align="center">Investoria</h1>
 
 ### Software Requirements Specification (SRS)  
-**Version 1.1**  
+**Version 1.2**  
 **Date: 02/10/2025**  
 **Author: Zlámal Jakub**
 
@@ -77,7 +77,7 @@
 ## 4. Non-Functional Requirements
 - **Performance:** The system should handle a reasonable number of concurrent users typical for a demo. Caching will be used to reduce API load.  
 - **Reliability & Availability:** Polygon.io provides ~99.99% uptime; the system’s availability will depend on this external service.  
-- **Security:** User passwords must be encrypted; user data must only be accessible to authenticated users.  
+- **Security:** User passwords must be hashed, user data must only be accessible to authenticated users.  
 - **Usability:** The interface should be simple and intuitive for beginners.  
 - **Scalability:** The architecture should allow future feature extensions and support an increased number of users if scaled on a cloud platform.  
 

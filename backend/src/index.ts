@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/authRoutes";
+import ohlcRouter from "./routes/ohlc";
 import authMiddleware from "../src/middleware/authMiddleware";
 
 dotenv.config();
@@ -14,8 +15,11 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+//auth
 app.use('/api/auth', authRouter);
 app.use(authMiddleware);
+//data routes
+app.use('/api/ohlc', ohlcRouter);
 
 app.get('/protected', (req, res) => {
     res.json({ message: "This is a protected route" });

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { prisma } from "../../utils/prisma";
 import { hashPassword, comparePassword } from "../../utils/bcrypt";
 import { UserSignUp, UserSignIn } from "../../../types/auth";
-import { signJWT } from "../../utils/jwt";
+import { signJWT, verifyJWT } from "../../utils/jwt";
 
 const router = Router();
 
@@ -64,6 +64,31 @@ router.post("/signin", async (req, res) => {
     } catch (err) {
         return res.status(500).json({ message: "Server error" });
     }
+});
+
+router.get("/verify-token", (req, res) => {
+    const token = req.cookies["jwt"];
+
+    if (!token) {
+        return res.status(401).json({ message: "No token provided" });
+    }
+
+    try {
+        const payload = verifyJWT(token);
+
+        return res.status(200).json({ message: "Token is valid" });
+    } catch (err) {
+        return res.status(401).json({ message: "Invalid token" });
+    }
+});
+
+router.post("/signout", (req, res) => {
+    res.clearCookie("jwt", {
+        httpOnly: true,
+        //secure: true,
+        sameSite: "strict",
+    });
+    res.status(200).json({ message: "Signed out successfully" });
 });
 
 export default router;

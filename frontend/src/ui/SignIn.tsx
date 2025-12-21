@@ -1,7 +1,8 @@
 import { useState } from "react";
-//import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import api from "../utils/api";
 
-type MySignUpParams = {
+type MySignInParams = {
     email: string;
     password: string;
 };
@@ -12,26 +13,25 @@ const SignIn = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-
-    //const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const payload: MySignUpParams = {
+            const payload: MySignInParams = {
                 email,
                 password
             };
 
-            const result = await fetch("http://localhost:3000/api/auth/signin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
-            });
+            const res = await api.post(
+                "/api/auth/signin",
+                payload
+            );
 
-            console.log("Výsledek přihlášení:", await result.json());
+            console.log(res);
+            navigate("/assets");
+        } catch (err) {
+            console.log(err);
         } finally {
             setLoading(false);
         }
